@@ -6,6 +6,7 @@ from sc2.data import Race
 from terranbot.bot import TerranBot
 from zergbot.bot import ZergBot
 from sc2.player import Bot
+from bottymcbotface.bot import BottyMcBotFace
 
 from bot_loader import GameStarter, BotDefinitions
 from version import update_version_txt
@@ -20,6 +21,10 @@ def add_definitions(definitions: BotDefinitions):
     )
     definitions.add_bot(
         "zergbot", lambda params: Bot(Race.Zerg, ZergBot()),
+        None
+    )
+    definitions.add_bot(
+        "bottymcbotface", lambda params: Bot(Race.Terran, BottyMcBotFace()),
         None
     )
 
