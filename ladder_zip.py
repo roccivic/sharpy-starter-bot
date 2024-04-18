@@ -15,7 +15,7 @@ common = [
     (os.path.join("sharpy-sc2", "jsonpickle"), "jsonpickle"),
     (os.path.join("sharpy-sc2", "sharpy"), "sharpy"),
     (os.path.join("sharpy-sc2", "python-sc2", "sc2"), "sc2"),
-    (os.path.join("sharpy-sc2", "sc2pathlibp"), "sc2pathlibp"),
+    (os.path.join("sharpy-sc2", "sc2pathlib"), "sc2pathlib"),
     ("requirements.txt", None),
     ("version.txt", None),
     (os.path.join("sharpy-sc2", "config.py"), "config.py"),
@@ -35,7 +35,7 @@ protoss_zip = LadderZip(
 )
 
 terran_zip = LadderZip(
-    "TerranSharpyExample", "Terran", [("terranbot", None), (os.path.join("terranbot", "run.py"), "run.py")], common
+    "BottyMcBotFace", "Terran", [("bottymcbotface", None), (os.path.join("bottymcbotface", "run.py"), "run.py")], common
 )
 
 zerg_zip = LadderZip(
