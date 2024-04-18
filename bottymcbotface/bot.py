@@ -6,8 +6,10 @@ from sharpy.combat.group_combat_manager import GroupCombatManager
 from sharpy.knowledges import SkeletonBot
 from sharpy.managers import ManagerBase
 from sharpy.managers.core import *
-from sharpy.managers.extensions import MemoryManager
+from sharpy.managers.extensions import MemoryManager, HeatMapManager
 from sharpy.plans.terran import *
+from sharpy.plans.tactics.scouting import *
+from sharpy.knowledges.knowledge_bot import GameAnalyzer
 
 
 
@@ -32,39 +34,43 @@ class BottyMcBotFace(SkeletonBot):
             GroupCombatManager(),
             GatherPointSolver(),
             ActManager(self.create_plan()),
+            HeatMapManager(),
+            GameAnalyzer(),
         ]
 
     def create_plan(self) -> ActBase:
         return BuildOrder(
-            Expand(2),
-            AutoWorker(),
-            AutoDepot(),
-            TerranUnit(UnitTypeId.SIEGETANK, priority=True),
-            TerranUnit(UnitTypeId.MARINE, priority=True),
-            TerranUnit(UnitTypeId.MEDIVAC, priority=True),
-            SequentialList(
-                GridBuilding(UnitTypeId.BARRACKS, 1),
-                Gas(1),
-                TerranUnit(UnitTypeId.REAPER, 1),
-                Scout(UnitTypeId.REAPER),
-                BuildAddon(UnitTypeId.BARRACKSTECHLAB, UnitTypeId.BARRACKS, 1),
-                GridBuilding(UnitTypeId.FACTORY, 1),
-                GridBuilding(UnitTypeId.STARPORT, 1),
-                GridBuilding(UnitTypeId.ENGINEERINGBAY, 1),
-                Tech(UpgradeId.STIMPACK, UnitTypeId.ENGINEERINGBAY),
-                Gas(2),
-                GridBuilding(UnitTypeId.BARRACKS, 3),
+            GridBuilding(UnitTypeId.SUPPLYDEPOT, 1),
+            Step(UnitReady(UnitTypeId.BARRACKS), MorphOrbitals(1)),
+            Step(UnitReady(UnitTypeId.BARRACKS), BuildAddon(UnitTypeId.BARRACKSTECHLAB, UnitTypeId.BARRACKS, 1)),
+            Step(UnitReady(UnitTypeId.BARRACKSTECHLAB), Tech(UpgradeId.STIMPACK, UnitTypeId.BARRACKSTECHLAB)),
+            Step(UnitReady(UnitTypeId.BARRACKS), TerranUnit(UnitTypeId.MARINE)),
+            Step(UnitReady(UnitTypeId.BARRACKS), BuildGas(1)),
+            Step(UnitReady(UnitTypeId.SUPPLYDEPOT), GridBuilding(UnitTypeId.BARRACKS, 5)),
+            IfElse(
+                TechReady(UpgradeId.STIMPACK, percentage=0.01),
+                DistributeWorkers(0, 0, False),
+                DistributeWorkers(3, 3, True),
             ),
-            DistributeWorkers(),
             LowerDepots(),
-            # Have the combat units gather in one place
+            Repair(),
+            IfElse(
+                TechReady(UpgradeId.STIMPACK, 0.5),
+                CallMule(100),
+                CallMule(50),
+            ),
+            AutoDepot(),
+            AutoWorker(16),
+
+            PlanWorkerOnlyDefense(),
             PlanZoneGather(),
-            # Defend
             PlanZoneDefense(),
-            SequentialList(
-                # Attack, these 2 should be last in a sequential list in this order
-                PlanZoneAttack(50,),
-                # Roam the map until last building is found.
-                PlanFinishEnemy(),
+
+            Step(
+                TechReady(UpgradeId.STIMPACK), SequentialList(
+                    ScanEnemy(20),
+                    PlanZoneAttack(),
+                    PlanFinishEnemy(),
+                )
             )
         )
