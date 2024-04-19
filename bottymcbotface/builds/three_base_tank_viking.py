@@ -44,7 +44,7 @@ class ThreeBaseTankViking(SkeletonBot):
             SpeedMining(),
             AutoDepot(),
 
-            MorphOrbitals(3),
+            MorphOrbitals(),
             AutoWorker(66),
 
             Expand(2, priority=True, priority_base_index=1),
