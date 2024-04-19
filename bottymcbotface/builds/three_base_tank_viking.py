@@ -14,7 +14,7 @@ from sharpy.plans.tactics.speed_mining import SpeedMining
 from bottymcbotface.scan_ahead import ScanAhead
 
 
-class ThreeBaseMarineViking(SkeletonBot):
+class ThreeBaseTankViking(SkeletonBot):
     def __init__(self):
         super().__init__("Terran Template")
 
@@ -43,29 +43,22 @@ class ThreeBaseMarineViking(SkeletonBot):
         return BuildOrder(
             SpeedMining(),
             AutoDepot(),
-            AutoWorker(66),
+
             MorphOrbitals(3),
+            AutoWorker(66),
 
-            SequentialList(
-                Expand(2, priority_base_index=1),
-                GridBuilding(UnitTypeId.SUPPLYDEPOT, 1),
-                GridBuilding(UnitTypeId.BARRACKS, 1),
-                BuildGas(2),
-                MorphOrbitals(1),
-                BuildOrder(
-                    Expand(3, priority_base_index=3, priority=True),
-                    BuildAddon(UnitTypeId.STARPORTREACTOR, UnitTypeId.STARPORT, 5),
-                    GridBuilding(UnitTypeId.STARPORT, 5),
-                    GridBuilding(UnitTypeId.FACTORY, 1),
-                ),
-                BuildGas(6),
-            ),
+            Expand(2, priority=True, priority_base_index=1),
+            Expand(3, priority=True, priority_base_index=3),
 
-            Step(UnitReady(UnitTypeId.STARPORT), TerranUnit(UnitTypeId.VIKINGFIGHTER, priority=True)),
-            Step(UnitReady(UnitTypeId.FACTORY), TerranUnit(UnitTypeId.HELLION)),
-            Step(UnitReady(UnitTypeId.BARRACKS), TerranUnit(UnitTypeId.MARINE)),
+            GridBuilding(UnitTypeId.BARRACKS, 1),
+            GridBuilding(UnitTypeId.FACTORY, 3),
+            Step(UnitReady(UnitTypeId.FACTORY), BuildAddon(UnitTypeId.FACTORYTECHLAB, UnitTypeId.FACTORY, 3)),
+            GridBuilding(UnitTypeId.STARPORT, 3),
+            BuildGas(6),
+            Step(UnitReady(UnitTypeId.STARPORT), TerranUnit(UnitTypeId.VIKINGFIGHTER)),
+            Step(UnitReady(UnitTypeId.FACTORY), TerranUnit(UnitTypeId.SIEGETANK)),
 
-            DistributeWorkers(),
+            DistributeWorkers(aggressive_gas_fill=True),
             LowerDepots(),
             Repair(),
 
