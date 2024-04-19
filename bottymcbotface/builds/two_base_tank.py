@@ -14,7 +14,7 @@ from sharpy.plans.tactics.speed_mining import SpeedMining
 from bottymcbotface.scan_ahead import ScanAhead
 
 
-class TwoBaseTanks(SkeletonBot):
+class TwoBaseTank(SkeletonBot):
     def __init__(self):
         super().__init__("Terran Template")
 
