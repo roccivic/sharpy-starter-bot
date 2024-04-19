@@ -10,6 +10,7 @@ from sharpy.managers.extensions import MemoryManager
 from sharpy.plans.terran import *
 from sharpy.plans.tactics.scouting import *
 from sharpy.knowledges.knowledge_bot import GameAnalyzer
+from sharpy.plans.tactics.speed_mining import SpeedMining
 from bottymcbotface.scan_ahead import ScanAhead
 
 
@@ -40,6 +41,7 @@ class TwoBaseTanks(SkeletonBot):
 
     def create_plan(self) -> ActBase:
         return BuildOrder(
+            SpeedMining(),
             GridBuilding(UnitTypeId.SUPPLYDEPOT, 1),
             Step(UnitReady(UnitTypeId.SUPPLYDEPOT), GridBuilding(UnitTypeId.BARRACKS, 1)),
             Step(UnitExists(UnitTypeId.BARRACKS), BuildGas(1)),
