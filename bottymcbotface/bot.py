@@ -3,8 +3,7 @@ from bottymcbotface.builds.one_base_stim import OneBaseStim
 from bottymcbotface.builds.two_base_tank import TwoBaseTank
 from bottymcbotface.builds.three_base_tank_viking import ThreeBaseTankViking
 
-# num = random.random()
-num = 1
+num = random.random()
 if num  > 0.66:
     print('THREE_BASE_TANK_VIKING')
     BottyMcBotFace = ThreeBaseTankViking
