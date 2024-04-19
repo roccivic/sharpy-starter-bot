@@ -10,7 +10,7 @@ from sharpy.managers.extensions import MemoryManager
 from sharpy.plans.terran import *
 from sharpy.plans.tactics.scouting import *
 from sharpy.knowledges.knowledge_bot import GameAnalyzer
-
+from bottymcbotface.scan_ahead import ScanAhead
 
 
 class BottyMcBotFace(SkeletonBot):
@@ -61,6 +61,7 @@ class BottyMcBotFace(SkeletonBot):
             Step(UnitReady(UnitTypeId.STARPORT), TerranUnit(UnitTypeId.MEDIVAC, 1, priority=True)),
             Step(UnitReady(UnitTypeId.FACTORYTECHLAB), TerranUnit(UnitTypeId.SIEGETANK, 1, priority=True)),
             Step(UnitReady(UnitTypeId.STARPORT), TerranUnit(UnitTypeId.MEDIVAC, 2)),
+            Step(UnitReady(UnitTypeId.STARPORT), TerranUnit(UnitTypeId.VIKINGFIGHTER, 2)),
             Step(UnitReady(UnitTypeId.FACTORYTECHLAB), TerranUnit(UnitTypeId.SIEGETANK)),
             Step(UnitReady(UnitTypeId.BARRACKS), TerranUnit(UnitTypeId.MARAUDER)),
             Step(UnitReady(UnitTypeId.BARRACKS), TerranUnit(UnitTypeId.MARINE)),
@@ -83,7 +84,7 @@ class BottyMcBotFace(SkeletonBot):
             IfElse(
                 TechReady(UpgradeId.TERRANINFANTRYARMORSLEVEL1),
                 SequentialList(
-                    ScanEnemy(25),
+                    ScanAhead(20),
                     PlanZoneAttack(),
                     PlanFinishEnemy(),
                 ),

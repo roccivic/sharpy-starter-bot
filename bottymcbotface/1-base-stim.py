@@ -10,6 +10,7 @@ from sharpy.managers.extensions import MemoryManager
 from sharpy.plans.terran import *
 from sharpy.plans.tactics.scouting import *
 from sharpy.knowledges.knowledge_bot import GameAnalyzer
+from bottymcbotface.scan_ahead import ScanAhead
 
 
 
@@ -62,7 +63,7 @@ class BottyMcBotFace(SkeletonBot):
                 All(TechReady(UpgradeId.STIMPACK, 0.1), TechReady(UpgradeId.SHIELDWALL, 0.1)),
                 Step(
                     All(TechReady(UpgradeId.STIMPACK), TechReady(UpgradeId.SHIELDWALL)),
-                    ScanEnemy(25)
+                    ScanAhead(20),
                 ),
                 CallMule(50),
             ),
