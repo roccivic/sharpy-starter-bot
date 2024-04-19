@@ -14,7 +14,7 @@ from bottymcbotface.scan_ahead import ScanAhead
 
 
 
-class BottyMcBotFace(SkeletonBot):
+class OneBaseStim(SkeletonBot):
     def __init__(self):
         super().__init__("Terran Template")
 
@@ -76,6 +76,6 @@ class BottyMcBotFace(SkeletonBot):
 
             Step(
                 All(TechReady(UpgradeId.STIMPACK), TechReady(UpgradeId.SHIELDWALL)),
-                SequentialList(PlanZoneAttack(),PlanFinishEnemy())
+                SequentialList(PlanZoneAttackAllIn(), PlanFinishEnemy())
             )
         )
