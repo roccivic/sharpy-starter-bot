@@ -78,8 +78,9 @@ class TwoBaseTank(SkeletonBot):
             DistributeWorkers(aggressive_gas_fill=True),
             LowerDepots(),
             Repair(),
+            ContinueBuilding(),
 
-            PlanZoneGather(),
+            PlanZoneGatherTerran(),
             PlanZoneDefense(),
             PlanWorkerOnlyDefense(),
 

@@ -61,6 +61,7 @@ class OneBaseReaper(SkeletonBot):
             DistributeWorkers(6, 6, True),
             LowerDepots(),
             Repair(),
+            ContinueBuilding(),
             IfElse(
                 UnitReady(UnitTypeId.REAPER),
                 ScanAhead(20),

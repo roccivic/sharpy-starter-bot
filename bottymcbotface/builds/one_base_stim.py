@@ -61,6 +61,7 @@ class OneBaseStim(SkeletonBot):
             ),
             LowerDepots(),
             Repair(),
+            ContinueBuilding(),
             IfElse(
                 All(TechReady(UpgradeId.STIMPACK, 0.1), TechReady(UpgradeId.SHIELDWALL, 0.1)),
                 Step(
@@ -73,7 +74,7 @@ class OneBaseStim(SkeletonBot):
             AutoWorker(16),
 
             PlanWorkerOnlyDefense(),
-            PlanZoneGather(),
+            PlanZoneGatherTerran(),
             PlanZoneDefense(),
 
             Step(
